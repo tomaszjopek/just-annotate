@@ -8,3 +8,31 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: test
+  keycloak:
+    image: jboss/keycloak:14.0.0
+    depends_on:
+      - postgres
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      DB_VENDOR: postgres
+      DB_ADDR: postgres
+      DB_NAME: keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: keycloak
+    volumes:
+      - keycloak-data:/opt/keycloak/data
+    ports:
+      - 8081:8080
+  postgres:
+      image: postgres:13.4-alpine
+      environment:
+        POSTGRES_USER: keycloak
+        POSTGRES_PASSWORD: keycloak
+        POSTGRES_DB: keycloak
+      volumes:
+        - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  keycloak-data:
+  postgres-data:

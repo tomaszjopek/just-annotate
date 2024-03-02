@@ -38,3 +38,5 @@ out/
 
 ### Kotlin ###
 .kotlin
+
+just-annotate-backend/http/http-client.private.env.json

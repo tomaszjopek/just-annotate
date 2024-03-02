@@ -2,3 +2,19 @@ spring:
   data:
     mongodb:
       uri: mongodb://test:test@localhost:27017/just_annotate_local
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: just-annotate-backend
+            authorization-grant-type: authorization_code
+            scope:
+              - openid
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8081/auth/realms/just-annotate
+            user-name-attribute: preferred_username
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8081/auth/realms/just-annotate

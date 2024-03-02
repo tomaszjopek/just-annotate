@@ -1,5 +1,6 @@
 ### Get all projects
 GET {{basePath}}/projects
+Authorization: Bearer {{token}}
 
 ### Get project for id
 GET {{basePath}}/projects/65e20b893e2cfd66aa560aaf

@@ -18,9 +18,30 @@ class MongoProjectRepository(private val internalProjectRepository: InternalProj
                 .map { it.toDomain() }
     }
 
+    override suspend fun findById(id: String): Project? {
+        return internalProjectRepository.findById(id)
+                ?.toDomain()
+    }
+
+    override suspend fun save(project: Project): Project {
+        return internalProjectRepository.save(project.toDocument())
+                .toDomain()
+    }
+
+    override suspend fun deleteById(id: String) {
+        internalProjectRepository.deleteById(id)
+    }
+
     private fun ProjectDocument.toDomain(): Project {
         return Project(
-                id = id ?: "",
+                id = id,
+                name = name
+        )
+    }
+
+    private fun Project.toDocument(): ProjectDocument {
+        return ProjectDocument(
+                id = id,
                 name = name
         )
     }

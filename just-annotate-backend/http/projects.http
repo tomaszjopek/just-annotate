@@ -1,1 +1,14 @@
+### Get all projects
 GET {{basePath}}/projects
+
+### Get project for id
+GET {{basePath}}/projects/65e20b893e2cfd66aa560aaf
+
+### Create new project
+POST http://localhost:8080/projects
+Content-Type: application/json
+
+{ "name": "Test band new project" }
+
+### Delete project by id
+DELETE http://localhost:8080/projects/65e20b893e2cfd66aa560aad

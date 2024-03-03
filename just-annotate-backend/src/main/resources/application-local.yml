@@ -11,6 +11,10 @@ spring:
             authorization-grant-type: authorization_code
             scope:
               - openid
+              - profile
+              - email
+              - roles
+              - admin
         provider:
           keycloak:
             issuer-uri: http://localhost:8081/auth/realms/just-annotate
@@ -18,3 +22,4 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:8081/auth/realms/just-annotate
+          jwk-set-uri: http://localhost:8081/auth/realms/just-annotate/protocol/openid-connect/certs

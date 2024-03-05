@@ -1,17 +1,21 @@
 import { Component, ViewChild } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkWithHref, RouterModule, RouterOutlet } from '@angular/router';
 import { MatToolbar } from "@angular/material/toolbar";
 import { MatIcon } from "@angular/material/icon";
 import { MatSidenav, MatSidenavContainer } from "@angular/material/sidenav";
 import { MatListItem, MatNavList } from "@angular/material/list";
 import { MatCard, MatCardContent } from "@angular/material/card";
 import { UsernameComponent } from "./auth/username/username.component";
+import { KeycloakAngularModule } from "keycloak-angular";
+import { DashboardComponent } from "./dashboard/dashboard/dashboard.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
     RouterOutlet,
+    RouterLinkWithHref,
+    KeycloakAngularModule,
     MatToolbar,
     MatIcon,
     MatSidenavContainer,
@@ -20,7 +24,10 @@ import { UsernameComponent } from "./auth/username/username.component";
     MatCard,
     MatCardContent,
     MatListItem,
-    UsernameComponent
+    UsernameComponent,
+    DashboardComponent,
+    RouterLink,
+    RouterModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

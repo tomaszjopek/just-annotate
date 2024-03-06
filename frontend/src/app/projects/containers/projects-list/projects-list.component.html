@@ -1,0 +1,13 @@
+<!--<ul>-->
+<!--  @for (project of projects$ | async; track project.id) {-->
+<!--    <li>{{project.name}}</li>-->
+<!--  } @empty {-->
+<!--    <p>No data</p>-->
+<!--  }-->
+<!--</ul>-->
+
+@if (projects$ | async; as projects) {
+  @for (project of projects; track project.id) {
+    <li>{{project.name}}</li>
+  }
+}

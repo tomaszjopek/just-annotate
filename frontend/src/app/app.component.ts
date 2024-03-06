@@ -8,6 +8,7 @@ import { MatCard, MatCardContent } from "@angular/material/card";
 import { UsernameComponent } from "./auth/username/username.component";
 import { KeycloakAngularModule } from "keycloak-angular";
 import { DashboardComponent } from "./dashboard/dashboard/dashboard.component";
+import { HttpClientModule } from "@angular/common/http";
 
 @Component({
   selector: 'app-root',

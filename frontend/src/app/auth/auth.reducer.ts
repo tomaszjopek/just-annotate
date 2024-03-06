@@ -1,4 +1,4 @@
-import { createFeature, createReducer, on } from "@ngrx/store";
+import { createFeature, createReducer } from "@ngrx/store";
 
 interface State {
   token: string | undefined,

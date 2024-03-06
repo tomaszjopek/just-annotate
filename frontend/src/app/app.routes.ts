@@ -1,27 +1,25 @@
 import { Routes } from '@angular/router';
-import { inject } from "@angular/core";
-import { KeycloakService } from "keycloak-angular";
 import { DashboardComponent } from "./dashboard/dashboard/dashboard.component";
-import { ProjectsListComponent } from "./projects/projects-list/projects-list.component";
-import { from } from "rxjs";
+import { ProjectsListComponent } from "./projects/containers/projects-list/projects-list.component";
+import { authenticatedGuard } from "./core/guards/authenticated.guard";
+import { provideState } from "@ngrx/store";
+import { projectsFeature } from "./projects/projects.reducer";
+import { provideEffects } from "@ngrx/effects";
+import * as projectsEffects from './projects/projects.effects'
+
 
 export const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
-    canActivate: [() => {
-      const keycloakService = inject(KeycloakService)
-
-      if (!keycloakService.isLoggedIn()) {
-        from(keycloakService.login({
-          redirectUri: window.location.origin
-        })).subscribe()
-      }
-
-    }]
+    canActivate: [authenticatedGuard]
   },
   {
     path: 'projects',
-    component: ProjectsListComponent
+    component: ProjectsListComponent,
+    providers: [
+      provideState(projectsFeature),
+      provideEffects(projectsEffects)
+    ]
   }
 ];

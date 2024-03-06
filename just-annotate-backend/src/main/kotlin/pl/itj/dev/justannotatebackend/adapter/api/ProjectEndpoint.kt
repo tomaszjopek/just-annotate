@@ -3,6 +3,7 @@ package pl.itj.dev.justannotatebackend.adapter.api
 import jakarta.validation.Valid
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import mu.KLogging
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import pl.itj.dev.justannotatebackend.adapter.api.exceptions.ObjectNotFound
@@ -13,6 +14,8 @@ import java.util.*
 @RestController
 @RequestMapping("/projects")
 class ProjectEndpoint(private val projectRepository: ProjectRepository) {
+
+    companion object : KLogging()
 
     @GetMapping
     @ResponseBody

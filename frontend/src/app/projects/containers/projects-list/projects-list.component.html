@@ -8,6 +8,8 @@
 
 @if (projects$ | async; as projects) {
   @for (project of projects; track project.id) {
-    <li>{{project.name}}</li>
+    <mat-card class="project-card">
+      <mat-card-title>{{project.name}}</mat-card-title>
+    </mat-card>
   }
 }

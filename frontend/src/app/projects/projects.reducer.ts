@@ -1,5 +1,5 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from "@ngrx/entity";
-import { createFeature, createReducer, on } from "@ngrx/store";
+import { createFeature, createFeatureSelector, createReducer, on } from "@ngrx/store";
 import { loadProjectsSuccess } from "./projects.actions";
 
 export interface Project {
@@ -24,9 +24,14 @@ export const projectsFeature = createFeature({
   )
 })
 
+export const projectsStateSelector = createFeatureSelector<ProjectState>('projects')
+
 const {
   selectIds,
+  selectEntities,
   selectAll
-} = projectAdapter.getSelectors()
+} = projectAdapter.getSelectors(projectsStateSelector)
+
+export const selectProjects = selectEntities
 
 export const selectAllProjects = selectAll

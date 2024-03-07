@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProjectsListComponent } from './projects-list.component';
+import { provideMockStore } from "@ngrx/store/testing";
 
 describe('ProjectsListComponent', () => {
   let component: ProjectsListComponent;
@@ -8,10 +9,13 @@ describe('ProjectsListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ProjectsListComponent]
+      imports: [ProjectsListComponent],
+      providers: [
+        provideMockStore()
+      ]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(ProjectsListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

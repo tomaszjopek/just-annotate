@@ -4,7 +4,8 @@ import { Project, ProjectState, selectAllProjects } from "../../projects.reducer
 import { AsyncPipe } from "@angular/common";
 import { loadProjects } from "../../projects.actions";
 import { Observable } from "rxjs";
-import { MatCard, MatCardTitle } from "@angular/material/card";
+import { MatCard, MatCardActions, MatCardContent, MatCardTitle } from "@angular/material/card";
+import { MatButton } from "@angular/material/button";
 
 @Component({
   selector: 'app-projects-list',
@@ -12,7 +13,10 @@ import { MatCard, MatCardTitle } from "@angular/material/card";
   imports: [
     AsyncPipe,
     MatCard,
-    MatCardTitle
+    MatCardTitle,
+    MatCardContent,
+    MatCardActions,
+    MatButton
   ],
   templateUrl: './projects-list.component.html',
   styleUrl: './projects-list.component.scss'
@@ -27,4 +31,11 @@ export class ProjectsListComponent {
     this.store.dispatch(loadProjects())
   }
 
+  editProject(project: Project): void {
+
+  }
+
+  removeProject(project: Project): void {
+
+  }
 }

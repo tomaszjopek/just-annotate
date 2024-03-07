@@ -1,15 +1,15 @@
-<!--<ul>-->
-<!--  @for (project of projects$ | async; track project.id) {-->
-<!--    <li>{{project.name}}</li>-->
-<!--  } @empty {-->
-<!--    <p>No data</p>-->
-<!--  }-->
-<!--</ul>-->
-
-@if (projects$ | async; as projects) {
-  @for (project of projects; track project.id) {
-    <mat-card class="project-card">
-      <mat-card-title>{{project.name}}</mat-card-title>
-    </mat-card>
-  }
-}
+<div class="container">
+  <div class="list-container">
+    @for(project of projects$ | async; track project.id) {
+      <mat-card class="project-card">
+        <mat-card-title>{{ project.name }}</mat-card-title>
+        <mat-card-content>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-raised-button color="primary" (click)="editProject(project)">Edit</button>
+          <button mat-raised-button color="warn" (click)="removeProject(project)">Remove</button>
+        </mat-card-actions>
+      </mat-card>
+    }
+  </div>
+</div>

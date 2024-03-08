@@ -32,10 +32,10 @@ export class ProjectsListComponent {
   }
 
   editProject(project: Project): void {
-
+    // TODO edit project
   }
 
   removeProject(project: Project): void {
-
+    // TODO remove project
   }
 }

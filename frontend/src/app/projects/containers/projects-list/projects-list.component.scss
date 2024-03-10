@@ -30,3 +30,11 @@ h3 {
   display: flex;
   justify-content: center;
 }
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 8px;
+  padding-right: 16px;
+}

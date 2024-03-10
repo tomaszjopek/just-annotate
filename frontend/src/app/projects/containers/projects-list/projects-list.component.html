@@ -1,4 +1,7 @@
-<h3>Projects</h3>
+<div class="header">
+  <h3>Projects</h3>
+  <button mat-raised-button (click)="createProject()">Create project</button>
+</div>
 <mat-list class="list-container">
   @for (project of projects$ | async; track project.id) {
     <mat-list-item class="list-item">

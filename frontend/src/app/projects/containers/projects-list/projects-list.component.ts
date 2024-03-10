@@ -46,4 +46,8 @@ export class ProjectsListComponent {
   removeProject(project: Project): void {
     // TODO remove project
   }
+
+  createProject() {
+    // TODO create project
+  }
 }

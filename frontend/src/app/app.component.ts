@@ -11,6 +11,7 @@ import { DashboardComponent } from "./dashboard/dashboard/dashboard.component";
 import { Store } from "@ngrx/store";
 import { from, take } from "rxjs";
 import { setupUserData } from "./auth/auth.actions";
+import { MatButton } from "@angular/material/button";
 
 @Component({
   selector: 'app-root',
@@ -29,7 +30,8 @@ import { setupUserData } from "./auth/auth.actions";
     UsernameComponent,
     DashboardComponent,
     RouterLink,
-    RouterModule
+    RouterModule,
+    MatButton
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

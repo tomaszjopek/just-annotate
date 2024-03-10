@@ -4,7 +4,7 @@ import { from, switchMap } from "rxjs";
 import { logout } from "./auth.actions";
 import { KeycloakService } from "keycloak-angular";
 
-export const login = createEffect(
+export const logoutEffect = createEffect(
   (actions$ = inject(Actions), keycloakService = inject(KeycloakService)) => {
     return actions$.pipe(
       ofType(logout),

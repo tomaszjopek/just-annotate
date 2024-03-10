@@ -16,3 +16,14 @@ mat-sidenav {
   bottom: 0;
   width: 100%;
 }
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.menu-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

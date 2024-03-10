@@ -1,3 +1,9 @@
+.user-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 .username {
-  padding: 16px 8px;
+  margin-left: 8px;
 }

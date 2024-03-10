@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, ApplicationConfig } from '@angular/core';
+import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -6,10 +6,11 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideState, provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 
-import * as authEffects from './auth/auth.effects';
 import { authFeature } from "./auth/auth.reducer";
-import { KeycloakBearerInterceptor, KeycloakService } from "keycloak-angular";
+import { KeycloakAngularModule, KeycloakBearerInterceptor, KeycloakService } from "keycloak-angular";
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptorsFromDi } from "@angular/common/http";
+import { provideStoreDevtools } from "@ngrx/store-devtools";
+import { environment } from "../environments/environment";
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -21,10 +22,12 @@ function initializeKeycloak(keycloak: KeycloakService) {
       },
       initOptions: {
         onLoad: 'check-sso',
+        checkLoginIframe: false,
         silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html'
       },
       enableBearerInterceptor: true,
-      bearerPrefix: 'Bearer'
+      bearerPrefix: 'Bearer',
+      loadUserProfileAtStartUp: true
     });
 }
 
@@ -36,8 +39,12 @@ export const appConfig: ApplicationConfig = {
       withInterceptorsFromDi()
     ),
     provideStore(),
+    provideStoreDevtools({
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
     provideState(authFeature),
-    provideEffects(authEffects),
+    importProvidersFrom(KeycloakAngularModule),
     {
       provide: APP_INITIALIZER,
       useFactory: initializeKeycloak,

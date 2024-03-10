@@ -1,10 +1,12 @@
-<mat-toolbar color="primary">
-  @if(isOpen) {
-    <mat-icon (click)="toggleSidenav()">menu_open</mat-icon>
-  } @else {
-    <mat-icon (click)="toggleSidenav()">menu</mat-icon>
-  }
-  <span style="padding-left: 16px">Just Annotate</span>
+<mat-toolbar color="primary" class="toolbar">
+  <div class="menu-title">
+    @if(isOpen) {
+      <mat-icon (click)="toggleSidenav()">menu_open</mat-icon>
+    } @else {
+      <mat-icon (click)="toggleSidenav()">menu</mat-icon>
+    }
+    <span style="padding-left: 16px">Just Annotate</span>
+  </div>
   <app-username></app-username>
 </mat-toolbar>
 

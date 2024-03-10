@@ -6,9 +6,11 @@ import { MatSidenav, MatSidenavContainer } from "@angular/material/sidenav";
 import { MatListItem, MatNavList } from "@angular/material/list";
 import { MatCard, MatCardContent } from "@angular/material/card";
 import { UsernameComponent } from "./auth/username/username.component";
-import { KeycloakAngularModule } from "keycloak-angular";
+import { KeycloakService } from "keycloak-angular";
 import { DashboardComponent } from "./dashboard/dashboard/dashboard.component";
-import { HttpClientModule } from "@angular/common/http";
+import { Store } from "@ngrx/store";
+import { from, take } from "rxjs";
+import { setupUserData } from "./auth/auth.actions";
 
 @Component({
   selector: 'app-root',
@@ -16,7 +18,6 @@ import { HttpClientModule } from "@angular/common/http";
   imports: [
     RouterOutlet,
     RouterLinkWithHref,
-    KeycloakAngularModule,
     MatToolbar,
     MatIcon,
     MatSidenavContainer,
@@ -38,7 +39,13 @@ export class AppComponent {
   @ViewChild("sidenav")
   sidenav: MatSidenav | undefined;
 
-  isOpen: boolean = false
+  isOpen: boolean = false;
+
+  constructor(private store: Store, private keycloakService: KeycloakService) {
+    from(this.keycloakService.loadUserProfile()).pipe(take(1)).subscribe((profile) => {
+      this.store.dispatch(setupUserData({username: profile.username, isLoggedIn: this.keycloakService.isLoggedIn()}))
+    })
+  }
 
   toggleSidenav(): void {
     this.isOpen = !this.isOpen

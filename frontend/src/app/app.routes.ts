@@ -17,6 +17,7 @@ export const routes: Routes = [
   {
     path: 'projects',
     component: ProjectsListComponent,
+    canActivate: [authenticatedGuard],
     providers: [
       provideState(projectsFeature),
       provideEffects(projectsEffects)

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Store } from "@ngrx/store";
 import { Project, ProjectState, selectAllProjects } from "../../projects.reducer";
 import { AsyncPipe } from "@angular/common";
@@ -8,6 +8,7 @@ import { MatCard, MatCardActions, MatCardContent, MatCardTitle } from "@angular/
 import { MatButton } from "@angular/material/button";
 import { MatList, MatListItem, MatListItemTitle } from "@angular/material/list";
 import { MatIcon } from "@angular/material/icon";
+import { MatPaginator } from "@angular/material/paginator";
 
 @Component({
   selector: 'app-projects-list',
@@ -22,7 +23,8 @@ import { MatIcon } from "@angular/material/icon";
     MatIcon,
     MatList,
     MatListItem,
-    MatListItemTitle
+    MatListItemTitle,
+    MatPaginator
   ],
   templateUrl: './projects-list.component.html',
   styleUrl: './projects-list.component.scss'

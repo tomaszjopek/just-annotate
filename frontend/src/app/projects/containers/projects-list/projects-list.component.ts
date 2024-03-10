@@ -7,6 +7,7 @@ import { Observable } from "rxjs";
 import { MatCard, MatCardActions, MatCardContent, MatCardTitle } from "@angular/material/card";
 import { MatButton } from "@angular/material/button";
 import { MatList, MatListItem, MatListItemTitle } from "@angular/material/list";
+import { MatIcon } from "@angular/material/icon";
 
 @Component({
   selector: 'app-projects-list',
@@ -18,6 +19,7 @@ import { MatList, MatListItem, MatListItemTitle } from "@angular/material/list";
     MatCardContent,
     MatCardActions,
     MatButton,
+    MatIcon,
     MatList,
     MatListItem,
     MatListItemTitle

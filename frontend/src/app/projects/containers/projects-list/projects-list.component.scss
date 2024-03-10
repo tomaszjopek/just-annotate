@@ -7,6 +7,17 @@
   padding: 16px;
 }
 
-.actions {
-  justify-content: flex-end;
+.list-item:hover {
+  background: lightgray;
+  cursor: pointer;
+}
+
+.list-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.actions button {
+  margin-left: 8px;
 }

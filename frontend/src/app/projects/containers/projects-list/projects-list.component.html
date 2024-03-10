@@ -1,9 +1,19 @@
 <mat-list class="list-container">
   @for (project of projects$ | async; track project.id) {
     <mat-list-item class="list-item">
-      <span>{{ project.name }}</span>
-      <button mat-raised-button color="primary" class="actions" (click)="editProject(project)">Edit</button>
-      <button mat-raised-button color="warn" class="actions" (click)="removeProject(project)">Remove</button>
+      <div class="list-content">
+        <span>{{ project.name }}</span>
+        <div class="actions">
+          <button mat-raised-button color="primary" (click)="editProject(project)">
+            <mat-icon>edit</mat-icon>
+            Edit
+          </button>
+          <button mat-raised-button color="warn" (click)="removeProject(project)">
+            <mat-icon>delete_forever</mat-icon>
+            Remove
+          </button>
+        </div>
+      </div>
     </mat-list-item>
   }
 </mat-list>

@@ -7,6 +7,7 @@ import { provideState, provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 
 import { authFeature } from "./auth/auth.reducer";
+import * as authFeatures from "./auth/auth.effects";
 import { KeycloakAngularModule, KeycloakBearerInterceptor, KeycloakService } from "keycloak-angular";
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptorsFromDi } from "@angular/common/http";
 import { provideStoreDevtools } from "@ngrx/store-devtools";
@@ -39,6 +40,7 @@ export const appConfig: ApplicationConfig = {
       withInterceptorsFromDi()
     ),
     provideStore(),
+    provideEffects(authFeatures),
     provideStoreDevtools({
       maxAge: 25,
       logOnly: environment.production,

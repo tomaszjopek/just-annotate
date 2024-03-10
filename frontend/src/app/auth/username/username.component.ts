@@ -4,6 +4,7 @@ import { AuthState, selectUsername } from "../auth.reducer";
 import { Observable } from "rxjs";
 import { AsyncPipe } from "@angular/common";
 import { MatIcon } from "@angular/material/icon";
+import { logout } from "../auth.actions";
 
 @Component({
   selector: 'app-username',
@@ -22,4 +23,7 @@ export class UsernameComponent {
   constructor(private store: Store<AuthState>) {
   }
 
+  logout(): void {
+    this.store.dispatch(logout())
+  }
 }

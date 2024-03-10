@@ -1,10 +1,10 @@
 .list-container {
-  flex: 1 1 auto;
-  flex-direction: row;
+  display: flex;
+  flex-direction: column;
 }
 
-.project-card {
-  margin: 16px;
+.list-item {
+  padding: 16px;
 }
 
 .actions {

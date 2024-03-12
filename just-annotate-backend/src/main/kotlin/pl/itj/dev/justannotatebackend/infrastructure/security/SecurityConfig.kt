@@ -1,4 +1,4 @@
-package pl.itj.dev.justannotatebackend.infrastructure
+package pl.itj.dev.justannotatebackend.infrastructure.security
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

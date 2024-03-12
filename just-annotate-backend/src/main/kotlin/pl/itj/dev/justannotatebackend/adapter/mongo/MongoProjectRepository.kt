@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.map
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 import org.springframework.stereotype.Repository
 import pl.itj.dev.justannotatebackend.domain.Project
+import pl.itj.dev.justannotatebackend.domain.ProjectType
 import pl.itj.dev.justannotatebackend.domain.ports.ProjectRepository
 
 @Repository
@@ -35,14 +36,24 @@ class MongoProjectRepository(private val internalProjectRepository: InternalProj
     private fun ProjectDocument.toDomain(): Project {
         return Project(
                 id = id,
-                name = name
+                name = name,
+                description = description,
+                type = ProjectType.valueOf(type),
+                owner = owner,
+                createdAt = createdAt,
+                lastModifiedDate = lastModifiedDate
         )
     }
 
     private fun Project.toDocument(): ProjectDocument {
         return ProjectDocument(
                 id = id,
-                name = name
+                name = name,
+                description = description,
+                type = type.name,
+                owner = owner,
+                createdAt = createdAt,
+                lastModifiedDate = lastModifiedDate
         )
     }
 }

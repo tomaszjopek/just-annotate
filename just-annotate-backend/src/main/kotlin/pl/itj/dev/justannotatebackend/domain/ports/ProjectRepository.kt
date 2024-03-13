@@ -7,6 +7,8 @@ interface ProjectRepository {
 
     suspend fun findAll(): Flow<Project>
 
+    suspend fun findAllByOwner(owner: String): Flow<Project>
+
     suspend fun findById(id: String): Project?
 
     suspend fun save(project: Project): Project

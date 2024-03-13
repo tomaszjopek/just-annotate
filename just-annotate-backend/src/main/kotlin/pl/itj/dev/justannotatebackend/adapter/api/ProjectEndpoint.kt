@@ -29,8 +29,7 @@ class ProjectEndpoint(
     @GetMapping
     @ResponseBody
     suspend fun fetchProjects(@AuthenticationPrincipal jwtAuthenticationToken: JwtAuthenticationToken): Flow<ProjectResponse> {
-        val username = jwtAuthenticationToken.username()
-        return projectRepository.findAll()
+        return projectRepository.findAllByOwner(jwtAuthenticationToken.username())
                 .map { it.toResponse() }
     }
 

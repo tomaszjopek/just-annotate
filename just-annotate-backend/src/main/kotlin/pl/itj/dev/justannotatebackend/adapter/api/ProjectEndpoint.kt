@@ -8,10 +8,12 @@ import org.springframework.http.HttpStatus
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 import pl.itj.dev.justannotatebackend.adapter.api.exceptions.ObjectNotFound
 import pl.itj.dev.justannotatebackend.domain.Project
 import pl.itj.dev.justannotatebackend.domain.ProjectType
 import pl.itj.dev.justannotatebackend.domain.ports.ProjectRepository
+import pl.itj.dev.justannotatebackend.domain.services.CsvFileImporter
 import pl.itj.dev.justannotatebackend.infrastructure.security.username
 import java.time.Clock
 import java.time.LocalDateTime
@@ -21,6 +23,7 @@ import java.util.*
 @RequestMapping("/projects")
 class ProjectEndpoint(
         private val projectRepository: ProjectRepository,
+        private val csvFileImporter: CsvFileImporter,
         private val clock: Clock
 ) {
 
@@ -56,6 +59,15 @@ class ProjectEndpoint(
     @ResponseStatus(HttpStatus.NO_CONTENT)
     suspend fun deleteProject(@PathVariable id: String) {
         projectRepository.deleteById(id)
+    }
+
+    @PostMapping("/{id}/dataset/import")
+    @ResponseStatus(HttpStatus.OK)
+    suspend fun importDataset(
+            @PathVariable id: String,
+            @RequestParam("file") file: MultipartFile,
+            @AuthenticationPrincipal jwtAuthenticationToken: JwtAuthenticationToken) {
+        file.inputStream.use { csvFileImporter.import(it) }
     }
 
     private fun Project.toResponse(): ProjectResponse {

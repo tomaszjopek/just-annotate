@@ -3,15 +3,17 @@ package pl.itj.dev.justannotatebackend.adapter.api
 import jakarta.validation.Valid
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
 import mu.KLogging
 import org.springframework.http.HttpStatus
+import org.springframework.http.codec.multipart.FilePart
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.multipart.MultipartFile
 import pl.itj.dev.justannotatebackend.adapter.api.exceptions.ObjectNotFound
 import pl.itj.dev.justannotatebackend.domain.Project
 import pl.itj.dev.justannotatebackend.domain.ProjectType
+import pl.itj.dev.justannotatebackend.domain.ports.DatasetItemRepository
 import pl.itj.dev.justannotatebackend.domain.ports.ProjectRepository
 import pl.itj.dev.justannotatebackend.domain.services.CsvFileImporter
 import pl.itj.dev.justannotatebackend.infrastructure.security.username
@@ -23,6 +25,7 @@ import java.util.*
 @RequestMapping("/projects")
 class ProjectEndpoint(
         private val projectRepository: ProjectRepository,
+        private val datasetItemRepository: DatasetItemRepository,
         private val csvFileImporter: CsvFileImporter,
         private val clock: Clock
 ) {
@@ -65,9 +68,21 @@ class ProjectEndpoint(
     @ResponseStatus(HttpStatus.OK)
     suspend fun importDataset(
             @PathVariable id: String,
-            @RequestParam("file") file: MultipartFile,
+            @RequestPart("file") file: FilePart,
             @AuthenticationPrincipal jwtAuthenticationToken: JwtAuthenticationToken) {
-        file.inputStream.use { csvFileImporter.import(it) }
+        file.content().subscribe {
+            it.asInputStream().use {
+                runBlocking {
+                    val texts = csvFileImporter.import(it)
+                    datasetItemRepository.save(
+                            items = texts,
+                            projectId = id,
+                            username = jwtAuthenticationToken.username(),
+                            createdAt = LocalDateTime.ofInstant(clock.instant(), clock.zone))
+
+                }
+            }
+        }
     }
 
     private fun Project.toResponse(): ProjectResponse {

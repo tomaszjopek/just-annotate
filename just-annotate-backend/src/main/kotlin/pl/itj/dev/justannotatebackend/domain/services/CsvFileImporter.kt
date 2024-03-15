@@ -5,7 +5,11 @@ import java.io.InputStream
 class CsvFileImporter {
 
     fun import(inputStream: InputStream): Sequence<String> {
-      TODO()
+        val reader = inputStream.bufferedReader()
+        val header = reader.readLine()
+
+        return reader.readLines()
+                .asSequence()
     }
 
 }

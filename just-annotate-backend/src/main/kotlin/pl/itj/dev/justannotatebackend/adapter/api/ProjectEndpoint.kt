@@ -72,6 +72,7 @@ class ProjectEndpoint(
             @AuthenticationPrincipal jwtAuthenticationToken: JwtAuthenticationToken) {
         file.content().subscribe {
             it.asInputStream().use {
+                logger.info { "Reading file input stream" }
                 runBlocking {
                     val texts = csvFileImporter.import(it)
                     datasetItemRepository.save(

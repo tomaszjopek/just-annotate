@@ -70,7 +70,7 @@ class ProjectEndpoint(
             @PathVariable id: String,
             @RequestPart("file") file: FilePart,
             @AuthenticationPrincipal jwtAuthenticationToken: JwtAuthenticationToken) {
-        file.content().subscribe {
+        file.content().skip(1).subscribe {
             it.asInputStream().use {
                 logger.info { "Reading file input stream" }
                 runBlocking {

@@ -39,7 +39,7 @@ To install the platform, you need to:
 3. Run the server: `./gradlew bootRun`
 
 ## Usage
-TODO..
+As a tool for data annotation. To prepare training datasets for AI/ML purposes.
 
 ## Documentation
 TODO..

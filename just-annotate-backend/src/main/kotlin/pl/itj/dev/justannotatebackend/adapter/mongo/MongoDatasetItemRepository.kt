@@ -1,13 +1,15 @@
 package pl.itj.dev.justannotatebackend.adapter.mongo
 
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.map
+import mu.KLogging
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 import org.springframework.stereotype.Repository
 import pl.itj.dev.justannotatebackend.domain.DatasetItem
 import pl.itj.dev.justannotatebackend.domain.ports.DatasetItemRepository
 import java.time.LocalDateTime
-import java.util.UUID
+import java.util.*
 
 @Repository
 interface InternalDatasetItemRepository : CoroutineCrudRepository<DatasetItemDocument, String>
@@ -15,15 +17,17 @@ interface InternalDatasetItemRepository : CoroutineCrudRepository<DatasetItemDoc
 @Repository
 class MongoDataSetItemRepository(private val internalDatasetItemRepository: InternalDatasetItemRepository) : DatasetItemRepository {
 
+    companion object : KLogging()
+
     override suspend fun findAll(): Flow<DatasetItem> {
         return internalDatasetItemRepository.findAll()
                 .map { it.toDomain() }
     }
 
-    override suspend fun save(items: Sequence<String>,
+    override fun save(items: Sequence<String>,
                               projectId: String,
                               username: String,
-                              createdAt: LocalDateTime) {
+                              createdAt: LocalDateTime): Flow<DatasetItemDocument> {
         val documents = items.map {
             DatasetItemDocument(
                     id = UUID.randomUUID().toString(),
@@ -35,7 +39,8 @@ class MongoDataSetItemRepository(private val internalDatasetItemRepository: Inte
             )
         }.asFlow()
 
-        runBlocking { internalDatasetItemRepository.saveAll(documents) }
+        logger.info { "Saving ${items.count()} dataset items" }
+        return internalDatasetItemRepository.saveAll(documents)
     }
 
     private fun DatasetItemDocument.toDomain(): DatasetItem {

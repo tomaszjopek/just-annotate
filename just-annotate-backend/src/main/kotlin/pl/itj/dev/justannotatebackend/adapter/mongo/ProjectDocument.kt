@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 
 @Document(collection = "projects")
 data class ProjectDocument(
-        @Id
+        @field:Id
         val id: String,
         val name: String,
         val description: String?,

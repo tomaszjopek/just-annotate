@@ -1,9 +1,11 @@
 package pl.itj.dev.justannotatebackend.adapter.api
 
 import jakarta.validation.Valid
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.runBlocking
 import mu.KLogging
 import org.springframework.http.HttpStatus
 import org.springframework.http.codec.multipart.FilePart
@@ -70,20 +72,17 @@ class ProjectEndpoint(
             @PathVariable id: String,
             @RequestPart("file") file: FilePart,
             @AuthenticationPrincipal jwtAuthenticationToken: JwtAuthenticationToken) {
-        file.content().skip(1).subscribe {
-            it.asInputStream().use {
-                logger.info { "Reading file input stream" }
-                runBlocking {
-                    val texts = csvFileImporter.import(it)
-                    datasetItemRepository.save(
-                            items = texts,
-                            projectId = id,
-                            username = jwtAuthenticationToken.username(),
-                            createdAt = LocalDateTime.ofInstant(clock.instant(), clock.zone))
+        logger.info { "Importing file: ${file.filename()} for user: ${jwtAuthenticationToken.username()}" }
 
-                }
-            }
-        }
+        val texts = csvFileImporter.import(file.content())
+        logger.info { "Collected ${texts.count()} lines" }
+
+        datasetItemRepository.save(
+                items = texts,
+                projectId = id,
+                username = jwtAuthenticationToken.username(),
+                createdAt = LocalDateTime.ofInstant(clock.instant(), clock.zone)
+        ).launchIn(CoroutineScope(Dispatchers.Default))
     }
 
     private fun Project.toResponse(): ProjectResponse {

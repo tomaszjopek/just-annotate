@@ -23,8 +23,3 @@ spring:
         jwt:
           issuer-uri: http://localhost:8081/auth/realms/just-annotate
           jwk-set-uri: http://localhost:8081/auth/realms/just-annotate/protocol/openid-connect/certs
-logging:
-  level:
-    org:
-      springframework:
-        security: TRACE

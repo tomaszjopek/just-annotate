@@ -67,7 +67,7 @@ class ProjectEndpoint(
     }
 
     @PostMapping("/{id}/dataset/import")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.ACCEPTED)
     suspend fun importDataset(
             @PathVariable id: String,
             @RequestPart("file") file: FilePart,
@@ -81,7 +81,8 @@ class ProjectEndpoint(
                 items = texts,
                 projectId = id,
                 username = jwtAuthenticationToken.username(),
-                createdAt = LocalDateTime.ofInstant(clock.instant(), clock.zone)
+                createdAt = LocalDateTime.ofInstant(clock.instant(), clock.zone),
+                filename = file.filename()
         ).launchIn(CoroutineScope(Dispatchers.Default))
     }
 

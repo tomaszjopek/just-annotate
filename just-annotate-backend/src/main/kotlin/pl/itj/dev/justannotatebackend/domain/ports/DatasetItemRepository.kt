@@ -10,8 +10,9 @@ interface DatasetItemRepository {
     suspend fun findAll(): Flow<DatasetItem>
 
     fun save(items: Sequence<String>,
-                     projectId: String,
-                     username: String,
-                     createdAt: LocalDateTime): Flow<DatasetItemDocument>
+             projectId: String,
+             username: String,
+             createdAt: LocalDateTime,
+             filename: String): Flow<DatasetItemDocument>
 
 }

@@ -25,9 +25,10 @@ class MongoDataSetItemRepository(private val internalDatasetItemRepository: Inte
     }
 
     override fun save(items: Sequence<String>,
-                              projectId: String,
-                              username: String,
-                              createdAt: LocalDateTime): Flow<DatasetItemDocument> {
+                      projectId: String,
+                      username: String,
+                      createdAt: LocalDateTime,
+                      filename: String): Flow<DatasetItemDocument> {
         val documents = items.map {
             DatasetItemDocument(
                     id = UUID.randomUUID().toString(),
@@ -35,7 +36,8 @@ class MongoDataSetItemRepository(private val internalDatasetItemRepository: Inte
                     text = it,
                     annotations = emptyMap(),
                     createdBy = username,
-                    createdAt = createdAt
+                    createdAt = createdAt,
+                    originalFilename = filename
             )
         }.asFlow()
 
@@ -50,7 +52,8 @@ class MongoDataSetItemRepository(private val internalDatasetItemRepository: Inte
                 text = text,
                 annotations = annotations,
                 createdBy = createdBy,
-                createdAt = createdAt
+                createdAt = createdAt,
+                originalFileName = originalFilename
         )
     }
 }

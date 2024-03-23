@@ -25,7 +25,7 @@ import pl.itj.dev.justannotatebackend.domain.services.CsvFileImporter
 import pl.itj.dev.justannotatebackend.infrastructure.security.username
 import java.time.Clock
 import java.time.LocalDateTime
-import java.util.*
+import java.util.UUID
 
 @RestController
 @RequestMapping("/projects")
@@ -41,6 +41,7 @@ class ProjectEndpoint(
     @GetMapping
     @ResponseBody
     fun fetchProjects(@AuthenticationPrincipal jwtAuthenticationToken: JwtAuthenticationToken): Flow<ProjectResponse> {
+        logger.info { "Fetching all projects for user: ${jwtAuthenticationToken.username()}" }
         return projectRepository.findAllByOwner(jwtAuthenticationToken.username())
                 .map { it.toResponse() }
     }
@@ -48,6 +49,7 @@ class ProjectEndpoint(
     @GetMapping("/{id}")
     @ResponseBody
     suspend fun fetchProject(@PathVariable id: String): ProjectResponse {
+        logger.info { "Fetching project with id: $id" }
         return projectRepository.findById(id)
                 ?.toResponse() ?: throw ObjectNotFound("Project with id: $id not found")
     }
@@ -59,6 +61,8 @@ class ProjectEndpoint(
             @Valid @RequestBody body: ProjectCreateRequest,
             @AuthenticationPrincipal jwtAuthenticationToken: JwtAuthenticationToken
     ): ProjectResponse {
+        logger.info { "Create project request: $body" }
+
         val project = body.toDomain(jwtAuthenticationToken.username())
         return projectRepository.save(project)
                 .toResponse()
@@ -67,7 +71,9 @@ class ProjectEndpoint(
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     suspend fun deleteProject(@PathVariable id: String) {
+        logger.info { "Deleting project with id: $id" }
         projectRepository.deleteById(id)
+        logger.info { "Deleted project with id: $id" }
     }
 
     @PostMapping("/{id}/dataset/import")

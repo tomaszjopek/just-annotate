@@ -7,17 +7,20 @@ import mu.KLogging
 import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 import org.springframework.stereotype.Repository
+import pl.itj.dev.justannotatebackend.domain.Annotation
 import pl.itj.dev.justannotatebackend.domain.DatasetItem
 import pl.itj.dev.justannotatebackend.domain.ports.DatasetItemRepository
 import java.time.LocalDateTime
-import java.util.*
+import java.util.UUID
 
 @Repository
 interface InternalDatasetItemRepository : CoroutineCrudRepository<DatasetItemDocument, String> {
 
-    fun findAllByProjectId(projectId: String, pageable: Pageable): Flow<DatasetItem>
+    fun findAllByProjectId(projectId: String, pageable: Pageable): Flow<DatasetItemDocument>
 
     suspend fun countAllByProjectId(projectId: String): Long
+
+    suspend fun findByIdAndProjectId(id: String, projectId: String): DatasetItemDocument
 
 }
 
@@ -31,17 +34,22 @@ class MongoDataSetItemRepository(private val internalDatasetItemRepository: Inte
                 .map { it.toDomain() }
     }
 
+    override suspend fun save(datasetItem: DatasetItem): DatasetItem {
+        return internalDatasetItemRepository.save(datasetItem.toDocument())
+                .toDomain()
+    }
+
     override fun save(items: Sequence<String>,
                       projectId: String,
                       username: String,
                       createdAt: LocalDateTime,
-                      filename: String): Flow<DatasetItemDocument> {
+                      filename: String): Flow<DatasetItem> {
         val documents = items.map {
             DatasetItemDocument(
                     id = UUID.randomUUID().toString(),
                     projectId = projectId,
                     text = it,
-                    annotations = emptyMap(),
+                    annotations = emptyList(),
                     createdBy = username,
                     createdAt = createdAt,
                     originalFilename = filename
@@ -50,14 +58,21 @@ class MongoDataSetItemRepository(private val internalDatasetItemRepository: Inte
 
         logger.info { "Saving ${items.count()} dataset items" }
         return internalDatasetItemRepository.saveAll(documents)
+                .map { it.toDomain() }
     }
 
     override fun findAllByProjectId(projectId: String, pageable: Pageable): Flow<DatasetItem> {
         return internalDatasetItemRepository.findAllByProjectId(projectId, pageable)
+                .map { it.toDomain() }
     }
 
     override suspend fun countAllByProjectId(projectId: String): Long {
         return internalDatasetItemRepository.countAllByProjectId(projectId)
+    }
+
+    override suspend fun findByIdAndProjectId(id: String, projectId: String): DatasetItem {
+        return internalDatasetItemRepository.findByIdAndProjectId(id, projectId)
+                .toDomain()
     }
 
     private fun DatasetItemDocument.toDomain(): DatasetItem {
@@ -65,10 +80,38 @@ class MongoDataSetItemRepository(private val internalDatasetItemRepository: Inte
                 id = id,
                 projectId = projectId,
                 text = text,
-                annotations = annotations,
+                annotations = annotations.map { it.toDomain() },
                 createdBy = createdBy,
                 createdAt = createdAt,
                 originalFilename = originalFilename
+        )
+    }
+
+    private fun AnnotationDocument.toDomain(): Annotation {
+        return Annotation(
+                label = label,
+                annotator = annotator,
+                createdAt = createdAt
+        )
+    }
+
+    private fun DatasetItem.toDocument(): DatasetItemDocument {
+        return DatasetItemDocument(
+                id = id,
+                projectId = projectId,
+                text = text,
+                annotations = annotations.map { it.toDocument() },
+                createdBy = createdBy,
+                createdAt = createdAt,
+                originalFilename = originalFilename
+        )
+    }
+
+    private fun Annotation.toDocument(): AnnotationDocument {
+        return AnnotationDocument(
+                label = label,
+                annotator = annotator,
+                createdAt = createdAt
         )
     }
 }

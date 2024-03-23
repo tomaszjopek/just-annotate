@@ -1,7 +1,15 @@
 package pl.itj.dev.justannotatebackend.adapter.api
 
+import java.time.LocalDateTime
+
+data class AnnotationResponse(
+        val label: String,
+        val annotator: String,
+        val createdAt: LocalDateTime
+)
+
 data class DatasetItemResponse(
         val id: String,
         val text: String,
-        val annotations: Map<String, String>
+        val annotations: List<AnnotationResponse>
 )

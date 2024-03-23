@@ -16,10 +16,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import org.springframework.web.bind.annotation.*
 import pl.itj.dev.justannotatebackend.adapter.api.exceptions.ObjectNotFound
-import pl.itj.dev.justannotatebackend.domain.DatasetItem
-import pl.itj.dev.justannotatebackend.domain.Label
-import pl.itj.dev.justannotatebackend.domain.Project
-import pl.itj.dev.justannotatebackend.domain.ProjectType
+import pl.itj.dev.justannotatebackend.domain.*
+import pl.itj.dev.justannotatebackend.domain.Annotation
 import pl.itj.dev.justannotatebackend.domain.ports.DatasetItemRepository
 import pl.itj.dev.justannotatebackend.domain.ports.ProjectRepository
 import pl.itj.dev.justannotatebackend.domain.services.CsvFileImporter
@@ -115,6 +113,29 @@ class ProjectEndpoint(
         return PageImpl<DatasetItemResponse>(datasetItems.toList(), pageable, allItems)
     }
 
+    @PostMapping("/{projectId}/dataset/items/{datasetItemId}/annotate")
+    @ResponseStatus(HttpStatus.OK)
+    suspend fun annotateItemWithLabel(
+            @PathVariable projectId: String,
+            @PathVariable datasetItemId: String,
+            @Valid @RequestBody body: AnnotateRequest,
+            @AuthenticationPrincipal jwtAuthenticationToken: JwtAuthenticationToken) {
+        logger.info { "Adding label ${body.label} for dataset item id $datasetItemId within $projectId project" }
+
+        val datasetItem = datasetItemRepository.findByIdAndProjectId(datasetItemId, projectId)
+        val currentAnnotations = datasetItem.annotations
+
+        currentAnnotations.addLast(
+                Annotation(
+                        label = body.label,
+                        annotator = jwtAuthenticationToken.username(),
+                        createdAt = LocalDateTime.ofInstant(clock.instant(), clock.zone)
+                )
+        )
+
+        datasetItemRepository.save(datasetItem.copy(annotations = currentAnnotations))
+    }
+
     private fun Project.toResponse(): ProjectResponse {
         return ProjectResponse(
                 id = id,
@@ -144,7 +165,15 @@ class ProjectEndpoint(
         return DatasetItemResponse(
                 id = id,
                 text = text,
-                annotations = annotations
+                annotations = annotations.map { it.toResponse() }
+        )
+    }
+
+    private fun Annotation.toResponse(): AnnotationResponse {
+        return AnnotationResponse(
+                label = label,
+                annotator = annotator,
+                createdAt = createdAt
         )
     }
 }

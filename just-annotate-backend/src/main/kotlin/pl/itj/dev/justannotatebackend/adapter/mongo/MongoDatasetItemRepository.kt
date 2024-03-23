@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.map
 import mu.KLogging
+import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 import org.springframework.stereotype.Repository
 import pl.itj.dev.justannotatebackend.domain.DatasetItem
@@ -12,14 +13,20 @@ import java.time.LocalDateTime
 import java.util.*
 
 @Repository
-interface InternalDatasetItemRepository : CoroutineCrudRepository<DatasetItemDocument, String>
+interface InternalDatasetItemRepository : CoroutineCrudRepository<DatasetItemDocument, String> {
+
+    fun findAllByProjectId(projectId: String, pageable: Pageable): Flow<DatasetItem>
+
+    suspend fun countAllByProjectId(projectId: String): Long
+
+}
 
 @Repository
 class MongoDataSetItemRepository(private val internalDatasetItemRepository: InternalDatasetItemRepository) : DatasetItemRepository {
 
     companion object : KLogging()
 
-    override suspend fun findAll(): Flow<DatasetItem> {
+    override fun findAll(): Flow<DatasetItem> {
         return internalDatasetItemRepository.findAll()
                 .map { it.toDomain() }
     }
@@ -45,6 +52,14 @@ class MongoDataSetItemRepository(private val internalDatasetItemRepository: Inte
         return internalDatasetItemRepository.saveAll(documents)
     }
 
+    override fun findAllByProjectId(projectId: String, pageable: Pageable): Flow<DatasetItem> {
+        return internalDatasetItemRepository.findAllByProjectId(projectId, pageable)
+    }
+
+    override suspend fun countAllByProjectId(projectId: String): Long {
+        return internalDatasetItemRepository.countAllByProjectId(projectId)
+    }
+
     private fun DatasetItemDocument.toDomain(): DatasetItem {
         return DatasetItem(
                 id = id,
@@ -53,7 +68,7 @@ class MongoDataSetItemRepository(private val internalDatasetItemRepository: Inte
                 annotations = annotations,
                 createdBy = createdBy,
                 createdAt = createdAt,
-                originalFileName = originalFilename
+                originalFilename = originalFilename
         )
     }
 }

@@ -9,5 +9,5 @@ data class DatasetItem(
         val annotations: Map<String, String>,
         val createdBy: String,
         val createdAt: LocalDateTime,
-        val originalFileName: String
+        val originalFilename: String
 )

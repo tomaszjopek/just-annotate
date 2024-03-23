@@ -6,13 +6,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.toList
 import mu.KLogging
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.http.codec.multipart.FilePart
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import org.springframework.web.bind.annotation.*
 import pl.itj.dev.justannotatebackend.adapter.api.exceptions.ObjectNotFound
+import pl.itj.dev.justannotatebackend.domain.DatasetItem
 import pl.itj.dev.justannotatebackend.domain.Project
 import pl.itj.dev.justannotatebackend.domain.ProjectType
 import pl.itj.dev.justannotatebackend.domain.ports.DatasetItemRepository
@@ -36,7 +40,7 @@ class ProjectEndpoint(
 
     @GetMapping
     @ResponseBody
-    suspend fun fetchProjects(@AuthenticationPrincipal jwtAuthenticationToken: JwtAuthenticationToken): Flow<ProjectResponse> {
+    fun fetchProjects(@AuthenticationPrincipal jwtAuthenticationToken: JwtAuthenticationToken): Flow<ProjectResponse> {
         return projectRepository.findAllByOwner(jwtAuthenticationToken.username())
                 .map { it.toResponse() }
     }
@@ -86,6 +90,24 @@ class ProjectEndpoint(
         ).launchIn(CoroutineScope(Dispatchers.Default))
     }
 
+    @GetMapping("/{id}/dataset/items")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    suspend fun fetchAllDatasetItems(
+            @PathVariable id: String,
+            @AuthenticationPrincipal jwtAuthenticationToken: JwtAuthenticationToken,
+            pageable: Pageable
+    ): PageImpl<DatasetItemResponse> {
+        logger.info { "Fetching dataset items for page: ${pageable.pageNumber} and size: ${pageable.pageSize}" }
+        val datasetItems = datasetItemRepository.findAllByProjectId(id, pageable)
+                .map { it.toResponse() }
+
+        val allItems = datasetItemRepository.countAllByProjectId(id)
+
+        logger.info { "Total items is: $allItems" }
+        return PageImpl<DatasetItemResponse>(datasetItems.toList(), pageable, allItems)
+    }
+
     private fun Project.toResponse(): ProjectResponse {
         return ProjectResponse(
                 id = id,
@@ -106,6 +128,14 @@ class ProjectEndpoint(
                 owner = username,
                 createdAt = LocalDateTime.ofInstant(clock.instant(), clock.zone),
                 lastModifiedDate = LocalDateTime.ofInstant(clock.instant(), clock.zone)
+        )
+    }
+
+    private fun DatasetItem.toResponse(): DatasetItemResponse {
+        return DatasetItemResponse(
+                id = id,
+                text = text,
+                annotations = annotations
         )
     }
 }

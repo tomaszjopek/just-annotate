@@ -5,9 +5,9 @@ import pl.itj.dev.justannotatebackend.domain.Project
 
 interface ProjectRepository {
 
-    suspend fun findAll(): Flow<Project>
+    fun findAll(): Flow<Project>
 
-    suspend fun findAllByOwner(owner: String): Flow<Project>
+    fun findAllByOwner(owner: String): Flow<Project>
 
     suspend fun findById(id: String): Project?
 

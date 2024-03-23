@@ -11,19 +11,19 @@ import pl.itj.dev.justannotatebackend.domain.ports.ProjectRepository
 @Repository
 interface InternalProjectRepository : CoroutineCrudRepository<ProjectDocument, String> {
 
-    suspend fun findAllByOwner(owner: String): Flow<ProjectDocument>
+    fun findAllByOwner(owner: String): Flow<ProjectDocument>
 
 }
 
 @Repository
 class MongoProjectRepository(private val internalProjectRepository: InternalProjectRepository) : ProjectRepository {
 
-    override suspend fun findAll(): Flow<Project> {
+    override fun findAll(): Flow<Project> {
         return internalProjectRepository.findAll()
                 .map { it.toDomain() }
     }
 
-    override suspend fun findAllByOwner(owner: String): Flow<Project> {
+    override fun findAllByOwner(owner: String): Flow<Project> {
         return internalProjectRepository.findAllByOwner(owner)
                 .map { it.toDomain() }
     }

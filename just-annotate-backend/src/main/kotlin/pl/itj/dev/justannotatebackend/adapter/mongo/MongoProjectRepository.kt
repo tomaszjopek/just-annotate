@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 import org.springframework.stereotype.Repository
+import pl.itj.dev.justannotatebackend.domain.Label
 import pl.itj.dev.justannotatebackend.domain.Project
 import pl.itj.dev.justannotatebackend.domain.ProjectType
 import pl.itj.dev.justannotatebackend.domain.ports.ProjectRepository
@@ -50,7 +51,8 @@ class MongoProjectRepository(private val internalProjectRepository: InternalProj
                 type = ProjectType.valueOf(type),
                 owner = owner,
                 createdAt = createdAt,
-                lastModifiedDate = lastModifiedDate
+                lastModifiedDate = lastModifiedDate,
+                labels = labels.map { it.toDomain() }.toSet()
         )
     }
 
@@ -62,7 +64,22 @@ class MongoProjectRepository(private val internalProjectRepository: InternalProj
                 type = type.name,
                 owner = owner,
                 createdAt = createdAt,
-                lastModifiedDate = lastModifiedDate
+                lastModifiedDate = lastModifiedDate,
+                labels = labels.map { it.toDocument() }.toSet()
+        )
+    }
+
+    private fun LabelDocument.toDomain(): Label {
+        return Label(
+                name = name,
+                color = color
+        )
+    }
+
+    private fun Label.toDocument(): LabelDocument {
+        return LabelDocument(
+                name = name,
+                color = color
         )
     }
 }

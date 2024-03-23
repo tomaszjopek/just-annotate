@@ -9,5 +9,6 @@ data class Project(
         val type: ProjectType,
         val owner: String,
         val createdAt: LocalDateTime,
-        val lastModifiedDate: LocalDateTime
+        val lastModifiedDate: LocalDateTime,
+        val labels: Set<Label>
 )

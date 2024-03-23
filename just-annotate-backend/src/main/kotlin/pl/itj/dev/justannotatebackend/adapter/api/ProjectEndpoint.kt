@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.web.bind.annotation.*
 import pl.itj.dev.justannotatebackend.adapter.api.exceptions.ObjectNotFound
 import pl.itj.dev.justannotatebackend.domain.DatasetItem
+import pl.itj.dev.justannotatebackend.domain.Label
 import pl.itj.dev.justannotatebackend.domain.Project
 import pl.itj.dev.justannotatebackend.domain.ProjectType
 import pl.itj.dev.justannotatebackend.domain.ports.DatasetItemRepository
@@ -25,7 +26,7 @@ import pl.itj.dev.justannotatebackend.domain.services.CsvFileImporter
 import pl.itj.dev.justannotatebackend.infrastructure.security.username
 import java.time.Clock
 import java.time.LocalDateTime
-import java.util.UUID
+import java.util.*
 
 @RestController
 @RequestMapping("/projects")
@@ -121,7 +122,8 @@ class ProjectEndpoint(
                 description = description,
                 type = type.name,
                 owner = owner,
-                createdAt = createdAt
+                createdAt = createdAt,
+                labels = labels.map { LabelJson(name = it.name, color = it.color) }.toSet()
         )
     }
 
@@ -133,7 +135,8 @@ class ProjectEndpoint(
                 type = ProjectType.valueOf(type),
                 owner = username,
                 createdAt = LocalDateTime.ofInstant(clock.instant(), clock.zone),
-                lastModifiedDate = LocalDateTime.ofInstant(clock.instant(), clock.zone)
+                lastModifiedDate = LocalDateTime.ofInstant(clock.instant(), clock.zone),
+                labels = labels.map { Label(name = it.name, color = it.color) }.toSet()
         )
     }
 

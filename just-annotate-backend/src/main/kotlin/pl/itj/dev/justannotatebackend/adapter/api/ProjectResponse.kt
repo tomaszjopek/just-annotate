@@ -8,5 +8,6 @@ data class ProjectResponse(
         val description: String?,
         val type: String,
         val owner: String,
-        val createdAt: LocalDateTime
+        val createdAt: LocalDateTime,
+        val labels: Set<LabelJson>
 )

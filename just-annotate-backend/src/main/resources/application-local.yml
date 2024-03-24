@@ -5,16 +5,11 @@ spring:
   security:
     oauth2:
       client:
-#        registration:
-#          keycloak:
-#            client-id: just-annotate-backend
-#            authorization-grant-type: authorization_code
-#            scope:
-#              - openid
-#              - profile
-#              - email
-#              - roles
-#              - admin
+        registration:
+          keycloak:
+            client-id: just-annotate-backend
+            client-secret: 8b2733c0-cddb-4dc0-8e5c-3ed7bce3fc48
+            authorization-grant-type: client_credentials
         provider:
           keycloak:
             issuer-uri: http://localhost:8081/auth/realms/just-annotate
@@ -23,3 +18,5 @@ spring:
         jwt:
           issuer-uri: http://localhost:8081/auth/realms/just-annotate
           jwk-set-uri: http://localhost:8081/auth/realms/just-annotate/protocol/openid-connect/certs
+keycloak-client:
+  baseUrl: http://localhost:8081/auth/realms/just-annotate

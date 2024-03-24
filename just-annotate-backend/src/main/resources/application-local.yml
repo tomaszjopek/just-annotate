@@ -19,4 +19,4 @@ spring:
           issuer-uri: http://localhost:8081/auth/realms/just-annotate
           jwk-set-uri: http://localhost:8081/auth/realms/just-annotate/protocol/openid-connect/certs
 keycloak-client:
-  baseUrl: http://localhost:8081/auth/realms/just-annotate
+  baseUrl: http://localhost:8081/auth/admin/realms/just-annotate

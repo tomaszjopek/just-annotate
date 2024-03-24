@@ -2,6 +2,7 @@ package pl.itj.dev.justannotatebackend.infrastructure.security
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
 import org.springframework.security.config.web.server.ServerHttpSecurity
@@ -42,10 +43,14 @@ class SecurityConfig {
         http.authorizeExchange {
             it.pathMatchers("/projects")
                     .hasAuthority("SCOPE_admin")
+                    .pathMatchers("/users")
+                    .hasAuthority("SCOPE_admin")
                     .anyExchange().authenticated()
         }
 
         http.oauth2ResourceServer { it.jwt {  } }
+
+        http.oauth2Client { Customizer.withDefaults<ServerHttpSecurity.OAuth2ClientSpec>() }
 
         return http.build()
     }

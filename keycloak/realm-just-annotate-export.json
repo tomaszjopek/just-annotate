@@ -457,7 +457,51 @@
   "webAuthnPolicyPasswordlessCreateTimeout": 0,
   "webAuthnPolicyPasswordlessAvoidSameAuthenticatorRegister": false,
   "webAuthnPolicyPasswordlessAcceptableAaguids": [],
+  "users": [
+    {
+      "id": "7d266688-7409-452f-afcb-b6a94c60a325",
+      "createdTimestamp": 1711299465167,
+      "username": "service-account-just-annotate-backend",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": false,
+      "serviceAccountClientId": "just-annotate-backend",
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": [
+        "default-roles-just-annotate"
+      ],
+      "clientRoles": {
+        "realm-management": [
+          "view-users"
+        ]
+      },
+      "notBefore": 0,
+      "groups": []
+    }
+  ],
   "scopeMappings": [
+    {
+      "client": "just-annotate-app",
+      "roles": [
+        "admin",
+        "annotator"
+      ]
+    },
+    {
+      "clientScope": "profile",
+      "roles": [
+        "admin",
+        "annotator"
+      ]
+    },
+    {
+      "clientScope": "users",
+      "roles": [
+        "admin",
+        "annotator"
+      ]
+    },
     {
       "clientScope": "offline_access",
       "roles": [
@@ -472,11 +516,31 @@
     }
   ],
   "clientScopeMappings": {
+    "realm-management": [
+      {
+        "clientScope": "users",
+        "roles": [
+          "view-users"
+        ]
+      }
+    ],
     "account": [
       {
         "client": "account-console",
         "roles": [
           "manage-account"
+        ]
+      },
+      {
+        "client": "just-annotate-app",
+        "roles": [
+          "view-profile"
+        ]
+      },
+      {
+        "clientScope": "profile",
+        "roles": [
+          "view-profile"
         ]
       }
     ]
@@ -495,7 +559,10 @@
       "redirectUris": [
         "/realms/just-annotate/account/*"
       ],
-      "webOrigins": [],
+      "webOrigins": [
+        "*",
+        "http://localhost:4200"
+      ],
       "notBefore": 0,
       "bearerOnly": false,
       "consentRequired": false,
@@ -506,7 +573,29 @@
       "publicClient": true,
       "frontchannelLogout": false,
       "protocol": "openid-connect",
-      "attributes": {},
+      "attributes": {
+        "saml.assertion.signature": "false",
+        "id.token.as.detached.signature": "false",
+        "saml.multivalued.roles": "false",
+        "saml.force.post.binding": "false",
+        "saml.encrypt": "false",
+        "oauth2.device.authorization.grant.enabled": "false",
+        "saml.server.signature": "false",
+        "backchannel.logout.revoke.offline.tokens": "false",
+        "saml.server.signature.keyinfo.ext": "false",
+        "use.refresh.tokens": "true",
+        "exclude.session.state.from.auth.response": "false",
+        "oidc.ciba.grant.enabled": "false",
+        "saml.artifact.binding": "false",
+        "backchannel.logout.session.required": "false",
+        "client_credentials.use_refresh_token": "false",
+        "saml_force_name_id_format": "false",
+        "saml.client.signature": "false",
+        "tls.client.certificate.bound.access.tokens": "false",
+        "saml.authnstatement": "false",
+        "display.on.consent.screen": "false",
+        "saml.onetimeuse.condition": "false"
+      },
       "authenticationFlowBindingOverrides": {},
       "fullScopeAllowed": false,
       "nodeReRegistrationTimeout": 0,
@@ -514,6 +603,7 @@
         "web-origins",
         "roles",
         "profile",
+        "admin",
         "email"
       ],
       "optionalClientScopes": [
@@ -675,10 +765,10 @@
       "frontchannelLogout": false,
       "protocol": "openid-connect",
       "attributes": {
-        "id.token.as.detached.signature": "false",
         "saml.assertion.signature": "false",
-        "saml.force.post.binding": "false",
+        "id.token.as.detached.signature": "false",
         "saml.multivalued.roles": "false",
+        "saml.force.post.binding": "false",
         "saml.encrypt": "false",
         "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false",
@@ -698,7 +788,7 @@
         "saml.onetimeuse.condition": "false"
       },
       "authenticationFlowBindingOverrides": {},
-      "fullScopeAllowed": true,
+      "fullScopeAllowed": false,
       "nodeReRegistrationTimeout": -1,
       "defaultClientScopes": [
         "web-origins",
@@ -721,25 +811,28 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
+      "secret": "**********",
       "redirectUris": [
         "*"
       ],
-      "webOrigins": [],
+      "webOrigins": [
+        "*"
+      ],
       "notBefore": 0,
-      "bearerOnly": true,
+      "bearerOnly": false,
       "consentRequired": false,
       "standardFlowEnabled": true,
       "implicitFlowEnabled": false,
       "directAccessGrantsEnabled": true,
-      "serviceAccountsEnabled": false,
+      "serviceAccountsEnabled": true,
       "publicClient": false,
       "frontchannelLogout": false,
       "protocol": "openid-connect",
       "attributes": {
-        "id.token.as.detached.signature": "false",
         "saml.assertion.signature": "false",
-        "saml.force.post.binding": "false",
+        "id.token.as.detached.signature": "false",
         "saml.multivalued.roles": "false",
+        "saml.force.post.binding": "false",
         "saml.encrypt": "false",
         "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false",
@@ -764,12 +857,57 @@
       },
       "fullScopeAllowed": true,
       "nodeReRegistrationTimeout": -1,
+      "protocolMappers": [
+        {
+          "id": "ab60c718-ad18-44a0-b907-7655949a00d1",
+          "name": "Client IP Address",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "clientAddress",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientAddress",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "4a543b93-86cd-4b60-961d-5d1558cbb5bb",
+          "name": "Client Host",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "clientHost",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientHost",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "ee76f8b1-9ac6-4fbc-b85a-1abcade28ca6",
+          "name": "Client ID",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "clientId",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientId",
+            "jsonType.label": "String"
+          }
+        }
+      ],
       "defaultClientScopes": [
         "web-origins",
         "roles",
         "profile",
         "admin",
-        "email"
+        "email",
+        "users"
       ],
       "optionalClientScopes": [
         "address",
@@ -1296,6 +1434,15 @@
           }
         }
       ]
+    },
+    {
+      "id": "07e80974-da2e-4e76-a4fe-060a981bfbf2",
+      "name": "users",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "true"
+      }
     },
     {
       "id": "cf95c2e0-830b-4244-9412-f74964e7e6b8",

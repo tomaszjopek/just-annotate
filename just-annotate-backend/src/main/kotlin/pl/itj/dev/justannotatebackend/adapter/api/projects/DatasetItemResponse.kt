@@ -1,4 +1,4 @@
-package pl.itj.dev.justannotatebackend.adapter.api
+package pl.itj.dev.justannotatebackend.adapter.api.projects
 
 import java.time.LocalDateTime
 

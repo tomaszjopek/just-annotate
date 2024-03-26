@@ -19,5 +19,5 @@ data class ProjectDocument(
         val owner: String,
         val createdAt: LocalDateTime,
         val lastModifiedDate: LocalDateTime,
-        val labels: Set<LabelDocument>
+        val labels: Set<LabelDocument> = emptySet()
 )

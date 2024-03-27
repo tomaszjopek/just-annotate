@@ -2,9 +2,19 @@ import { createEntityAdapter, EntityAdapter, EntityState } from "@ngrx/entity";
 import { createFeature, createFeatureSelector, createReducer, on } from "@ngrx/store";
 import { loadProjectsSuccess } from "./projects.actions";
 
+export interface Label {
+  name: string;
+  color: string;
+}
+
 export interface Project {
   id: string;
   name: string;
+  description?: string;
+  type: string;
+  owner: string;
+  createdAt: Date;
+  labels: Label[]
 }
 
 export interface ProjectState extends EntityState<Project> {

@@ -45,7 +45,8 @@ export class AppComponent {
 
   constructor(private store: Store, private keycloakService: KeycloakService) {
     from(this.keycloakService.loadUserProfile()).pipe(take(1)).subscribe((profile) => {
-      this.store.dispatch(setupUserData({username: profile.username, isLoggedIn: this.keycloakService.isLoggedIn()}))
+      const roles = this.keycloakService.getUserRoles()
+      this.store.dispatch(setupUserData({username: profile.username, isLoggedIn: this.keycloakService.isLoggedIn(), roles}))
     })
   }
 

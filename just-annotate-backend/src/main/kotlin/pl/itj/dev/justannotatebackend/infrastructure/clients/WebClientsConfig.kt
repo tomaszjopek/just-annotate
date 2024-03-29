@@ -1,6 +1,7 @@
 package pl.itj.dev.justannotatebackend.infrastructure.clients
 
 import mu.KLogging
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.oauth2.client.registration.ReactiveClientRegistrationRepository
@@ -11,6 +12,7 @@ import pl.itj.dev.justannotatebackend.infrastructure.properties.KeycloakClientPr
 import reactor.core.publisher.Mono
 
 @Configuration
+@EnableConfigurationProperties(KeycloakClientProperties::class)
 class WebClientsConfig {
 
     companion object : KLogging()

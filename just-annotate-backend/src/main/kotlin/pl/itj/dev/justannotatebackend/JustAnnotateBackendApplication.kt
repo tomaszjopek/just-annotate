@@ -7,8 +7,6 @@ import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRep
 import pl.itj.dev.justannotatebackend.infrastructure.properties.KeycloakClientProperties
 
 @SpringBootApplication
-@EnableReactiveMongoRepositories
-@EnableConfigurationProperties(KeycloakClientProperties::class)
 class JustAnnotateBackendApplication
 
 fun main(args: Array<String>) {

@@ -11,9 +11,13 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
+import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient
+import org.springframework.security.oauth2.client.registration.ReactiveClientRegistrationRepository
+import org.springframework.security.oauth2.client.web.server.ServerOAuth2AuthorizedClientRepository
+import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder
 import org.springframework.security.test.web.reactive.server.SecurityMockServerConfigurers
 import org.springframework.security.test.web.reactive.server.SecurityMockServerConfigurers.mockJwt
 import org.springframework.security.test.web.reactive.server.SecurityMockServerConfigurers.mockOAuth2Client
@@ -34,6 +38,15 @@ class UsersEndpointTest {
 
     @MockBean
     private lateinit var authorizedClient: OAuth2AuthorizedClient
+
+    @MockBean
+    private lateinit var reactiveClientRegistrationRepository: ReactiveClientRegistrationRepository
+
+    @MockBean
+    private lateinit var serverOAuth2AuthorizedClientRepository: ServerOAuth2AuthorizedClientRepository
+
+    @MockBean
+    private lateinit var reactiveJwtDecoder: ReactiveJwtDecoder
 
     @Test
     fun `fetches users with optional username filter`() {

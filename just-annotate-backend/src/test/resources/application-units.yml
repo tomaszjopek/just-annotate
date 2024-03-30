@@ -1,0 +1,6 @@
+keycloak-client:
+  baseUrl: http://localhost:9000/auth/admin/realms/just-annotate-units
+spring:
+  main:
+    web-application-type: reactive
+

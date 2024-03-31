@@ -45,6 +45,7 @@ dependencies {
     testImplementation("org.testcontainers:mongodb")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
     testImplementation("org.mockito:mockito-core:3.9.0")
+    testImplementation("io.mockk:mockk:1.13.10")
     testImplementation("org.mockito.kotlin:mockito-kotlin:3.2.0")
 }
 

@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.map
 import mu.KLogging
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 import org.springframework.stereotype.Repository
@@ -14,6 +15,7 @@ import java.time.LocalDateTime
 import java.util.UUID
 
 @Repository
+@ConditionalOnProperty(prefix = "spring.data.mongodb", name = ["uri"])
 interface InternalDatasetItemRepository : CoroutineCrudRepository<DatasetItemDocument, String> {
 
     fun findAllByProjectId(projectId: String, pageable: Pageable): Flow<DatasetItemDocument>
@@ -25,6 +27,7 @@ interface InternalDatasetItemRepository : CoroutineCrudRepository<DatasetItemDoc
 }
 
 @Repository
+@ConditionalOnProperty(prefix = "spring.data.mongodb", name = ["uri"])
 class MongoDataSetItemRepository(private val internalDatasetItemRepository: InternalDatasetItemRepository) : DatasetItemRepository {
 
     companion object : KLogging()

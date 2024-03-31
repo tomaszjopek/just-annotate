@@ -2,6 +2,7 @@ package pl.itj.dev.justannotatebackend.adapter.mongo
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 import org.springframework.stereotype.Repository
 import pl.itj.dev.justannotatebackend.domain.Label
@@ -10,6 +11,7 @@ import pl.itj.dev.justannotatebackend.domain.ProjectType
 import pl.itj.dev.justannotatebackend.domain.ports.ProjectRepository
 
 @Repository
+@ConditionalOnProperty(prefix = "spring.data.mongodb", name = ["uri"])
 interface InternalProjectRepository : CoroutineCrudRepository<ProjectDocument, String> {
 
     fun findAllByOwner(owner: String): Flow<ProjectDocument>
@@ -17,6 +19,7 @@ interface InternalProjectRepository : CoroutineCrudRepository<ProjectDocument, S
 }
 
 @Repository
+@ConditionalOnProperty(prefix = "spring.data.mongodb", name = ["uri"])
 class MongoProjectRepository(private val internalProjectRepository: InternalProjectRepository) : ProjectRepository {
 
     override fun findAll(): Flow<Project> {

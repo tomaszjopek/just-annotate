@@ -5,7 +5,6 @@
 ## Description
 
 This repository contains the source code for a data annotation platform. The platform allows for the annotation of various aspects of text, images such as:
-For texts:
 - Sentiment
 - Entities
 - Relations between entities

@@ -11,7 +11,7 @@ import java.io.PipedInputStream
 import java.io.PipedOutputStream
 
 
-class CsvFileImporter {
+open class CsvFileImporter {
 
     companion object : KLogging()
 

@@ -48,7 +48,7 @@ class SecurityConfig {
                     .anyExchange().authenticated()
         }
 
-        http.oauth2ResourceServer { it.jwt {  } }
+        http.oauth2ResourceServer { it.jwt { Customizer.withDefaults<ServerHttpSecurity.OAuth2ResourceServerSpec.JwtSpec>() } }
 
         http.oauth2Client { Customizer.withDefaults<ServerHttpSecurity.OAuth2ClientSpec>() }
 

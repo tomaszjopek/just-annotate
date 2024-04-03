@@ -2,6 +2,7 @@ package pl.itj.dev.justannotatebackend.adapter.api.projects
 
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
 import org.assertj.core.api.AssertionsForInterfaceTypes.assertThat
@@ -28,9 +29,12 @@ import pl.itj.dev.justannotatebackend.adapter.api.exceptions.ObjectNotFound
 import pl.itj.dev.justannotatebackend.adapter.api.users.UserResponse
 import pl.itj.dev.justannotatebackend.adapter.api.users.UsersEndpoint
 import pl.itj.dev.justannotatebackend.domain.Project
+import pl.itj.dev.justannotatebackend.domain.ProjectType
 import pl.itj.dev.justannotatebackend.domain.ports.DatasetItemRepository
 import pl.itj.dev.justannotatebackend.domain.ports.ProjectRepository
 import pl.itj.dev.justannotatebackend.domain.services.CsvFileImporter
+import java.time.Clock
+import java.time.LocalDateTime
 
 @WebFluxTest(ProjectEndpoint::class)
 @Import(TestCommonConfig::class)
@@ -39,6 +43,9 @@ class ProjectEndpointTest {
 
     @Autowired
     private lateinit var webTestClient: WebTestClient
+
+    @Autowired
+    private lateinit var clock: Clock
 
     @MockBean
     private lateinit var projectRepository: ProjectRepository
@@ -82,4 +89,43 @@ class ProjectEndpointTest {
             .hasSize(0)
     }
 
+    @Test
+    fun `should return projects for authenticated user`() {
+        val givenProjects = flowOf(
+            Project(
+                id = "dasd1212-dsa-ddsad-dsadas",
+                name = "project1",
+                description = "description",
+                type = ProjectType.TEXT,
+                owner = "testuser",
+                createdAt = LocalDateTime.ofInstant(clock.instant(), clock.zone),
+                lastModifiedDate = LocalDateTime.ofInstant(clock.instant(), clock.zone),
+                labels = emptySet()
+            )
+        )
+
+        whenever(projectRepository.findAllByOwner(eq("testuser"))).thenReturn(givenProjects)
+
+        webTestClient.mutateWith(mockJwt()
+            .jwt { it.claim("preferred_username", "testuser") }
+            .authorities(SimpleGrantedAuthority("SCOPE_admin"))
+        )
+            .get()
+            .uri("/projects")
+            .exchange()
+            .expectStatus().isOk()
+            .expectBodyList(ProjectResponse::class.java)
+            .hasSize(1)
+            .contains(
+                ProjectResponse(
+                    id = "dasd1212-dsa-ddsad-dsadas",
+                    name = "project1",
+                    description = "description",
+                    type = "TEXT",
+                    owner = "testuser",
+                    createdAt = LocalDateTime.ofInstant(clock.instant(), clock.zone),
+                    labels = emptySet()
+                )
+            )
+    }
 }

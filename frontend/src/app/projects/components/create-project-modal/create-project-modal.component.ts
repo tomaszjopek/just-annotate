@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatButtonModule } from "@angular/material/button";
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
@@ -44,17 +44,15 @@ export class CreateProjectModalComponent {
     control.push(this.initLabel());
   }
 
-  removeLabel(index: number) {
+  removeLabel(index: number): void {
     const control = this.form.controls['labels'] as FormArray;
     control.removeAt(index);
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.form.valid) {
-      // Process form submission
       console.log(this.form.value);
     } else {
-      // Mark fields as touched to display validation errors
       this.form.markAllAsTouched();
     }
   }

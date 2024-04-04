@@ -37,7 +37,7 @@
           <mat-label>Labels</mat-label>
           <div formArrayName="labels">
             @for(labelGroup of labelsControl.controls; track $index) {
-              <div [formGroupName]="$index" class="labels-container">
+              <div formGroupName="labels" class="labels-container">
                 <div class="label-field">
                   <input matInput formControlName="name" placeholder="Enter label name" required>
                   <input type="color" formControlName="color">

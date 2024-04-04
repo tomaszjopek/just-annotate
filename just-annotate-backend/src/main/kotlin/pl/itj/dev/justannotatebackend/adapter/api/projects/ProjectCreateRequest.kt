@@ -6,6 +6,7 @@ data class ProjectCreateRequest(
         @field:NotEmpty
         val name: String,
         val description: String?,
+        @field:NotEmpty
         val type: String,
         val labels: Set<LabelJson>
 )

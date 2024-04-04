@@ -55,7 +55,7 @@ export class ProjectsListComponent {
   }
 
   createProject() {
-    const dialogRef = this.dialog.open(CreateProjectModalComponent);
+    const dialogRef = this.dialog.open(CreateProjectModalComponent, {maxHeight: '90vh'});
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);

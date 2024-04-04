@@ -1,0 +1,49 @@
+form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  width: 600px;
+}
+
+.card-content {
+  padding: 20px;
+}
+
+.form-field {
+  margin-bottom: 15px;
+}
+
+.labels-container {
+  display: flex;
+  align-items: center;
+}
+
+.label-field {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.label-field input[type="text"] {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.label-field input[type="color"] {
+  width: 50px;
+  height: 30px;
+}
+
+.add-label {
+  margin-left: 10px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+button {
+  margin-left: 8px;
+}

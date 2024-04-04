@@ -1,38 +1,40 @@
-<div class="header">
-  <h3>Projects</h3>
-  <button mat-raised-button (click)="createProject()">Create project</button>
-</div>
-@if(userData$ | async; as userData) {
-  <mat-list class="list-container">
-    @for (project of projects$ | async; track project.id) {
-      <mat-list-item class="list-item">
-        <div class="list-content">
-          <span>{{ project.name }}</span>
-          <div class="actions">
-            <button mat-raised-button
-                    color="primary"
-                    [disabled]="project.owner !== userData.username || !userData.isAdmin"
-                    (click)="editProject(project)">
-              <mat-icon>edit</mat-icon>
-              Edit
-            </button>
-            <button mat-raised-button
-                    color="warn"
-                    [disabled]="project.owner !== userData.username"
-                    (click)="removeProject(project)">
-              <mat-icon>delete_forever</mat-icon>
-              Remove
-            </button>
+<div class="projects-list-container">
+  <div class="header">
+    <h3>Projects</h3>
+    <button mat-raised-button (click)="createProject()">Create project</button>
+  </div>
+  @if(userData$ | async; as userData) {
+    <mat-list class="list-container">
+      @for (project of projects$ | async; track project.id) {
+        <mat-list-item class="list-item">
+          <div class="list-content">
+            <span>{{ project.name }}</span>
+            <div class="actions">
+              <button mat-raised-button
+                      color="primary"
+                      [disabled]="project.owner !== userData.username || !userData.isAdmin"
+                      (click)="editProject(project)">
+                <mat-icon>edit</mat-icon>
+                Edit
+              </button>
+              <button mat-raised-button
+                      color="warn"
+                      [disabled]="project.owner !== userData.username"
+                      (click)="removeProject(project)">
+                <mat-icon>delete_forever</mat-icon>
+                Remove
+              </button>
+            </div>
           </div>
-        </div>
-      </mat-list-item>
-    } @empty {
-      <p class="no-data">No data</p>
-    }
-  </mat-list>
-}
-<mat-paginator [length]="100"
-               [pageSize]="10"
-               [pageSizeOptions]="[5, 10, 25, 100]"
-               aria-label="Select page">
-</mat-paginator>
+        </mat-list-item>
+      } @empty {
+        <p class="no-data">No data</p>
+      }
+    </mat-list>
+  }
+  <mat-paginator [length]="100"
+                 [pageSize]="10"
+                 [pageSizeOptions]="[5, 10, 25, 100]"
+                 aria-label="Select page">
+  </mat-paginator>
+</div>

@@ -4,7 +4,7 @@
     <button mat-raised-button (click)="createProject()">Create project</button>
   </div>
   @if(userData$ | async; as userData) {
-    <mat-list class="list-container">
+    <mat-action-list class="list-container">
       @for (project of projects$ | async; track project.id) {
         <mat-list-item class="list-item">
           <div class="list-content">
@@ -30,7 +30,7 @@
       } @empty {
         <p class="no-data">No data</p>
       }
-    </mat-list>
+    </mat-action-list>
   }
   <mat-paginator [length]="100"
                  [pageSize]="10"

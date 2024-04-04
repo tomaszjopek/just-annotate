@@ -4,32 +4,25 @@ import { Project, selectAllProjects } from "../../projects.reducer";
 import { AsyncPipe } from "@angular/common";
 import { loadProjects } from "../../projects.actions";
 import { Observable } from "rxjs";
-import { MatCard, MatCardActions, MatCardContent, MatCardTitle } from "@angular/material/card";
-import { MatButton, MatButtonModule } from "@angular/material/button";
-import { MatList, MatListItem, MatListItemTitle } from "@angular/material/list";
+import { MatListModule } from "@angular/material/list";
+import { selectUsernameIsAdmin } from "../../../auth/auth.reducer";
+import { MatDialog } from "@angular/material/dialog";
+import { CreateProjectModalComponent } from "../../components/create-project-modal/create-project-modal.component";
 import { MatIcon } from "@angular/material/icon";
 import { MatPaginator } from "@angular/material/paginator";
-import { selectUsernameIsAdmin } from "../../../auth/auth.reducer";
-import { MatDialog, MatDialogModule } from "@angular/material/dialog";
-import { CreateProjectModalComponent } from "../../components/create-project-modal/create-project-modal.component";
+import { MatButton } from "@angular/material/button";
+import { MatRipple } from "@angular/material/core";
 
 @Component({
   selector: 'app-projects-list',
   standalone: true,
   imports: [
     AsyncPipe,
-    MatCard,
-    MatCardTitle,
-    MatCardContent,
-    MatCardActions,
-    MatButton,
+    MatListModule,
     MatIcon,
-    MatList,
-    MatListItem,
-    MatListItemTitle,
     MatPaginator,
-    MatButtonModule,
-    MatDialogModule
+    MatButton,
+    MatRipple
   ],
   templateUrl: './projects-list.component.html',
   styleUrl: './projects-list.component.scss'

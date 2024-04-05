@@ -51,5 +51,6 @@ html, body { height: 100%; }
 body {
   @include mat.core-theme($theme);
   @include mat.all-component-themes($theme);
+  @include mat.core();
   margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
 }

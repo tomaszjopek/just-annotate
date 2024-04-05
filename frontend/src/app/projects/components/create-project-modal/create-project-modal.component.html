@@ -1,61 +1,69 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <mat-card class="card">
-    <mat-card-header>
-      <mat-card-title>Create project</mat-card-title>
-    </mat-card-header>
-    <mat-card-content class="card-content">
-      <div class="form-field">
-        <mat-form-field appearance="fill">
-          <mat-label>Name</mat-label>
-          <input matInput formControlName="name" placeholder="Enter name" required>
-          @if(form.controls['name'].invalid && (form.controls['name'].dirty || form.controls['name'].touched)) {
-            <mat-error>
-              Name is required
-            </mat-error>
-          }
-        </mat-form-field>
-      </div>
-      <div class="form-field">
-        <mat-form-field appearance="fill">
-          <mat-label>Description</mat-label>
-          <textarea matInput formControlName="description" placeholder="Enter description"></textarea>
-        </mat-form-field>
-      </div>
-      <div class="form-field">
-        <mat-form-field appearance="fill">
-          <mat-label>Type</mat-label>
-          <input matInput formControlName="type" placeholder="Enter type" required>
-          @if(form.controls['type'].invalid && (form.controls['type'].dirty || form.controls['type'].touched)) {
-            <mat-error>
-              Type is required
-            </mat-error>
-          }
-        </mat-form-field>
-      </div>
-      <div class="form-field">
-        <mat-form-field appearance="fill">
-          <mat-label>Labels</mat-label>
-          <div formArrayName="labels">
-            @for(labelGroup of labelsControl.controls; track $index) {
-              <div formGroupName="labels" class="labels-container">
-                <div class="label-field">
-                  <input matInput formControlName="name" placeholder="Enter label name" required>
-                  <input type="color" formControlName="color">
-                  <button type="button" mat-icon-button (click)="removeLabel($index)">
-                    <mat-icon>close</mat-icon>
-                  </button>
-                </div>
-              </div>
-            }
-          </div>
-          <button type="button" mat-raised-button color="primary" (click)="addNewLabel()">Add Label</button>
-        </mat-form-field>
-      </div>
-    </mat-card-content>
-    <mat-card-actions class="card-actions" align="end">
-      <button mat-raised-button color="secondary" mat-dialog-close>Cancel</button>
-      <button type="submit" mat-raised-button color="primary" cdkFocusInitial>Submit</button>
-    </mat-card-actions>
-  </mat-card>
-</form>
+<!--<form [formGroup]="form" (ngSubmit)="onSubmit()">-->
+<!--  <mat-card class="card">-->
+<!--    <mat-card-header>-->
+<!--      <mat-card-title>Create project</mat-card-title>-->
+<!--    </mat-card-header>-->
+<!--    <mat-card-content class="card-content">-->
+<!--      <div class="form-field">-->
+<!--        <mat-form-field appearance="fill">-->
+<!--          <mat-label>Name</mat-label>-->
+<!--          <input matInput formControlName="name" placeholder="Enter name" required>-->
+<!--          @if(form.controls['name'].invalid && (form.controls['name'].dirty || form.controls['name'].touched)) {-->
+<!--            <mat-error>-->
+<!--              Name is required-->
+<!--            </mat-error>-->
+<!--          }-->
+<!--        </mat-form-field>-->
+<!--      </div>-->
+<!--      <div class="form-field">-->
+<!--        <mat-form-field appearance="fill">-->
+<!--          <mat-label>Description</mat-label>-->
+<!--          <textarea matInput formControlName="description" placeholder="Enter description"></textarea>-->
+<!--        </mat-form-field>-->
+<!--      </div>-->
+<!--      <div class="form-field">-->
+<!--        <mat-form-field appearance="fill">-->
+<!--          <mat-label>Type</mat-label>-->
+<!--          <input matInput formControlName="type" placeholder="Enter type" required>-->
+<!--          @if(form.controls['type'].invalid && (form.controls['type'].dirty || form.controls['type'].touched)) {-->
+<!--            <mat-error>-->
+<!--              Type is required-->
+<!--            </mat-error>-->
+<!--          }-->
+<!--        </mat-form-field>-->
+<!--      </div>-->
+<!--      <div class="form-field">-->
+<!--        <mat-form-field appearance="fill">-->
+<!--          <mat-label>Labels</mat-label>-->
+<!--          <div formArrayName="labels">-->
+<!--            @for(labelGroup of labelsControl.controls; track $index) {-->
+<!--              <div formGroupName="labels" class="labels-container">-->
+<!--                <div class="label-field">-->
+<!--                  <input matInput formControlName="name" placeholder="Enter label name" required>-->
+<!--                  <input type="color" formControlName="color">-->
+<!--                  <button type="button" mat-icon-button (click)="removeLabel($index)">-->
+<!--                    <mat-icon>close</mat-icon>-->
+<!--                  </button>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            }-->
+<!--          </div>-->
+<!--          <button type="button" mat-raised-button color="primary" (click)="addNewLabel()">Add Label</button>-->
+<!--        </mat-form-field>-->
+<!--      </div>-->
+<!--    </mat-card-content>-->
+<!--    <mat-card-actions class="card-actions" align="end">-->
+<!--      <button mat-raised-button color="secondary" mat-dialog-close>Cancel</button>-->
+<!--      <button type="submit" mat-raised-button color="primary" cdkFocusInitial>Submit</button>-->
+<!--    </mat-card-actions>-->
+<!--  </mat-card>-->
+<!--</form>-->
 
+<h2 mat-dialog-title>Delete file</h2>
+<mat-dialog-content>
+  Would you like to delete cat.jpeg?
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>No</button>
+  <button mat-button mat-dialog-close cdkFocusInitial>Ok</button>
+</mat-dialog-actions>

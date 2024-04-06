@@ -47,10 +47,14 @@ $theme: matx.define-theme((
   )
 ));
 
-html, body { height: 100%; }
-body {
+@include mat.core();
+
+html {
   @include mat.core-theme($theme);
   @include mat.all-component-themes($theme);
-  @include mat.core();
+}
+
+html, body { height: 100%; }
+body {
   margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
 }

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatButtonModule } from "@angular/material/button";
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle } from "@angular/material/card";
 import { MatError, MatFormField, MatLabel } from "@angular/material/form-field";
@@ -17,7 +17,7 @@ import { MatIcon } from "@angular/material/icon";
 export class CreateProjectModalComponent {
   form: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<CreateProjectModalComponent>) {
     this.form = this.fb.group({
       name: ['', Validators.required],
       description: [''],
@@ -51,7 +51,7 @@ export class CreateProjectModalComponent {
 
   onSubmit(): void {
     if (this.form.valid) {
-      console.log(this.form.value);
+      this.dialogRef.close(this.form.value)
     } else {
       this.form.markAllAsTouched();
     }

@@ -1,18 +1,12 @@
 form {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.card {
-  width: 600px;
-}
-
-.card-content {
-  padding: 20px;
-}
-
 .form-field {
+  width: 100%;
   margin-bottom: 15px;
 }
 
@@ -31,10 +25,10 @@ form {
   margin-right: 10px;
 }
 
-.label-field input[type="color"] {
-  width: 50px;
-  height: 30px;
-}
+/*.label-field input[type="color"] {*/
+/*  width: 50px;*/
+/*  height: 30px;*/
+/*}*/
 
 .add-label {
   margin-left: 10px;

@@ -6,7 +6,7 @@ data class ProjectResponse(
         val id: String,
         val name: String,
         val description: String?,
-        val type: String,
+        val projectType: String,
         val owner: String,
         val createdAt: LocalDateTime,
         val labels: Set<LabelJson>

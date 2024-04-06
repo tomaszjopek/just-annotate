@@ -1,16 +1,8 @@
 package pl.itj.dev.justannotatebackend.adapter.api.projects
 
-import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.test.runTest
-import org.assertj.core.api.AssertionsForInterfaceTypes.assertThat
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
-import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
@@ -20,14 +12,10 @@ import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.context.annotation.Import
 import org.springframework.security.core.authority.SimpleGrantedAuthority
-import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.security.test.web.reactive.server.SecurityMockServerConfigurers.mockJwt
 import org.springframework.test.web.reactive.server.WebTestClient
 import pl.itj.dev.justannotatebackend.TestCommonConfig
-import pl.itj.dev.justannotatebackend.TestWebfluxConfigurer
-import pl.itj.dev.justannotatebackend.adapter.api.exceptions.ObjectNotFound
 import pl.itj.dev.justannotatebackend.adapter.api.users.UserResponse
-import pl.itj.dev.justannotatebackend.adapter.api.users.UsersEndpoint
 import pl.itj.dev.justannotatebackend.domain.Project
 import pl.itj.dev.justannotatebackend.domain.ProjectType
 import pl.itj.dev.justannotatebackend.domain.ports.DatasetItemRepository
@@ -121,7 +109,7 @@ class ProjectEndpointTest {
                     id = "dasd1212-dsa-ddsad-dsadas",
                     name = "project1",
                     description = "description",
-                    type = "TEXT",
+                    projectType = "TEXT",
                     owner = "testuser",
                     createdAt = LocalDateTime.ofInstant(clock.instant(), clock.zone),
                     labels = emptySet()

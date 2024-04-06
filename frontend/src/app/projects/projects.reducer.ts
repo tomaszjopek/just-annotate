@@ -1,6 +1,6 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from "@ngrx/entity";
 import { createFeature, createFeatureSelector, createReducer, on } from "@ngrx/store";
-import { loadProjectsSuccess } from "./projects.actions";
+import { createProjectSuccess, loadProjectsSuccess, ProjectResponse } from "./projects.actions";
 
 export interface Label {
   name: string;
@@ -11,7 +11,7 @@ export interface Project {
   id: string;
   name: string;
   description?: string;
-  type: string;
+  projectType: string;
   owner: string;
   createdAt: Date;
   labels: Label[]
@@ -30,6 +30,9 @@ export const projectsFeature = createFeature({
     initialState,
     on(loadProjectsSuccess, (state, {projects}) => {
       return projectAdapter.addMany(projects, state)
+    }),
+    on(createProjectSuccess, (state, project: ProjectResponse) => {
+      return projectAdapter.addOne(project, state)
     })
   )
 })

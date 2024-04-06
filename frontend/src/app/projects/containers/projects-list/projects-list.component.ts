@@ -48,7 +48,9 @@ export class ProjectsListComponent {
   }
 
   createProject() {
-    const dialogRef = this.dialog.open(CreateProjectModalComponent);
+    const dialogRef = this.dialog.open(CreateProjectModalComponent, {
+      width: '600px'
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);

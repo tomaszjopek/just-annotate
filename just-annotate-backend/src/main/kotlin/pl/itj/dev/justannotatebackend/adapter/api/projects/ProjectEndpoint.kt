@@ -141,7 +141,7 @@ class ProjectEndpoint(
                 id = id,
                 name = name,
                 description = description,
-                type = type.name,
+                projectType = type.name,
                 owner = owner,
                 createdAt = createdAt,
                 labels = labels.map { LabelJson(name = it.name, color = it.color) }.toSet()

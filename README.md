@@ -11,6 +11,8 @@ This repository contains the source code for a data annotation platform. The pla
 - Intents
 - Categories
 
+Text annotations as MVP
+
 The platform is designed for researchers, students, and others who need a tool to annotate data.
 
 ## Features

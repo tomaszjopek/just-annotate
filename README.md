@@ -46,7 +46,7 @@ As a tool for data annotation. To prepare training datasets for AI/ML purposes.
 TODO...
 
 ## Keywords
-data annotation, text, sentiment, entities, relations, intents, categories, Kotlin, Spring Boot, MongoDB, Keycloak, Angular 17, Typescript
+data annotation, text, sentiment, entities, relations, intents, categories, Kotlin, Spring Boot, MongoDB, Keycloak, Angular 17, Typescript, Angular Material M3(experimental)
 
 ## Additional information
 - The platform is designed to be scalable and extensible.

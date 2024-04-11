@@ -11,6 +11,8 @@ This repository contains the source code for a data annotation platform. The pla
 - Intents
 - Categories
 
+Text annotations as MVP
+
 The platform is designed for researchers, students, and others who need a tool to annotate data.
 
 ## Features
@@ -41,10 +43,10 @@ To install the platform, you need to:
 As a tool for data annotation. To prepare training datasets for AI/ML purposes.
 
 ## Documentation
-TODO...
+TODO......
 
 ## Keywords
-data annotation, text, sentiment, entities, relations, intents, categories, Kotlin, Spring Boot, MongoDB, Keycloak, Angular 17, Typescript
+data annotation, text, sentiment, entities, relations, intents, categories, Kotlin, Spring Boot, MongoDB, Keycloak, Angular 17, Typescript, Angular Material M3(experimental)
 
 ## Additional information
 - The platform is designed to be scalable and extensible.

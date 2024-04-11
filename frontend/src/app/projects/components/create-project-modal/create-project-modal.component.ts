@@ -6,13 +6,14 @@ import { MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle } 
 import { MatError, MatFormField, MatLabel } from "@angular/material/form-field";
 import { MatInput } from "@angular/material/input";
 import { MatIcon } from "@angular/material/icon";
+import { JsonPipe } from "@angular/common";
 
 @Component({
   selector: 'app-create-project-modal',
   templateUrl: './create-project-modal.component.html',
   styleUrl: './create-project-modal.component.css',
   standalone: true,
-  imports: [MatDialogModule, MatButtonModule, ReactiveFormsModule, MatLabel, MatError, MatCardTitle, MatCard, MatCardHeader, MatCardContent, MatFormField, MatInput, MatIcon, MatCardActions],
+  imports: [MatDialogModule, MatButtonModule, ReactiveFormsModule, MatLabel, MatError, MatCardTitle, MatCard, MatCardHeader, MatCardContent, MatFormField, MatInput, MatIcon, MatCardActions, JsonPipe],
 })
 export class CreateProjectModalComponent {
   form: FormGroup;

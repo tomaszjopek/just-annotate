@@ -35,10 +35,10 @@
         <mat-label>Labels</mat-label>
         <div formArrayName="labels">
           @for(labelGroup of labelsControl.controls; track $index) {
-            <div class="labels-container">
+            <div class="labels-container" [formGroup]="labelGroup">
               <div class="label-field">
-                <input matInput [formControl]="labelGroup['name']" placeholder="Enter label name" required>
-                <input type="color" [formControl]="labelGroup['color']">
+                <input matInput formControlName="name" placeholder="Enter label name" required>
+                <input type="color" formControlName="color">
                 <button type="button" mat-icon-button (click)="removeLabel($index)">
                   <mat-icon>close</mat-icon>
                 </button>

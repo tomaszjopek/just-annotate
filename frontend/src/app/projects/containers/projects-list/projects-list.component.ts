@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { Store } from "@ngrx/store";
 import { Project, selectAllProjects } from "../../projects.reducer";
 import { AsyncPipe } from "@angular/common";
-import { loadProjects } from "../../projects.actions";
+import { createProject, loadProjects } from "../../projects.actions";
 import { Observable } from "rxjs";
 import { MatListModule } from "@angular/material/list";
 import { selectUsernameIsAdmin } from "../../../auth/auth.reducer";
@@ -53,7 +53,7 @@ export class ProjectsListComponent {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      this.store.dispatch(createProject(result))
     });
   }
 }

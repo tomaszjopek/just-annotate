@@ -19,6 +19,7 @@ export class ProjectsService {
   }
 
   createProject(request: CreateProjectRequest): Observable<Project> {
+    console.log("Createing project", request)
     return this.httpClient.post<Project>(`${this.configService.getApiUrl()}/projects`, request)
   }
 }

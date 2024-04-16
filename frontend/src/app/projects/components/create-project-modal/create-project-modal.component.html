@@ -1,7 +1,6 @@
 <h2 mat-dialog-title>Create project</h2>
 <mat-dialog-content>
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-
+<form [formGroup]="form">
     <div class="form-field">
       <mat-form-field appearance="fill">
         <mat-label>Name</mat-label>
@@ -33,9 +32,9 @@
     <div class="form-field">
       <mat-form-field appearance="fill">
         <mat-label>Labels</mat-label>
-        <div formArrayName="labels">
-          @for(labelGroup of labelsControl.controls; track $index) {
-            <div class="labels-container" [formGroup]="labelGroup">
+        <div>
+          @for(label of labels; track $index) {
+            <div class="labels-container" [formGroup]="label">
               <div class="label-field">
                 <input matInput formControlName="name" placeholder="Enter label name" required>
                 <input type="color" formControlName="color">
@@ -53,5 +52,5 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button cdkFocusInitial>Create</button>
+  <button mat-button cdkFocusInitial (click)="onSubmit()">Create</button>
 </mat-dialog-actions>

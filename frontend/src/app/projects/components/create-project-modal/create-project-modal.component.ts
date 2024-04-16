@@ -36,8 +36,8 @@ export class CreateProjectModalComponent {
     });
   }
 
-  get labelsControl(): FormArray {
-    return this.form.controls['labels'] as FormArray
+  get labels(): FormGroup[] {
+    return (this.form.controls['labels'] as FormArray).controls as FormGroup[]
   }
 
   addNewLabel() {

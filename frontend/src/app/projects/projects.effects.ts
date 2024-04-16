@@ -38,7 +38,7 @@ export const createProject$ = createEffect(
         map(createdProject => createProjectSuccess({
           ...createdProject
         })),
-        catchError(error => of(createProjectError))
+        catchError(error => of(createProjectError()))
       )
   },
   {functional: true}

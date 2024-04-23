@@ -1,4 +1,4 @@
-noooo# Just-Annotate platform
+jużnoooo# Just-Annotate platform
 
 ![CI](https://github.com/tomaszjopek/just-annotate/actions/workflows/gradle.yml/badge.svg)
 
@@ -43,7 +43,7 @@ To install the platform, you need to:
 As a tool for data annotation. To prepare training datasets for AI/ML purposes.
 
 ## Documentation
-TODO........................................................................
+TODO...............................................................................
 
 ## Keywords
 data annotation, text, sentiment, entities, relations, intents, categories, Kotlin, Spring Boot, MongoDB, Keycloak, Angular 17, Typescript, Angular Material M3(experimental)
